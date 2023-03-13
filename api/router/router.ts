@@ -3,16 +3,16 @@ const router = Router()
 import multer from 'multer'
 import randomstring from 'randomstring';
 import path from 'path'
-import * as controller from "../controller/controller";
+import * as controller from "../controller/messageController";
 
 
 export const storage = multer.diskStorage({
-    destination: function (req: Request, file: any, cb: any) {
+    destination: function (req: Request, files: any, cb: any) {
         cb(null, 'uploads/')
     },
 
-    filename: function (req: Request, file: any, cb: any) {
-        cb(null, randomstring.generate({charset:"alphanumeric", length: 10})+path.extname(file?.originalname))
+    filename: function (req: Request, files: any, cb: any) {
+        cb(null, randomstring.generate({charset:"alphanumeric", length: 10})+path.extname(files?.originalname))
     },
 })
 
@@ -21,8 +21,8 @@ export const uploadFile = multer({
     limits: {
         fileSize: 1000000,
     },
-    fileFilter: (req: Request, file: any, cb: any) => {
-        console.log('file2', file)
+    fileFilter: (req: Request, files: any, cb: any) => {
+        // console.log('file2', files)
         // if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png' || file.mimetype == 'text/plain') {
         //     console.log("file", file.mimetype)
         //     cb(null, true)
@@ -33,7 +33,7 @@ export const uploadFile = multer({
         cb(null, true)
     },
 })
-router.post('/save',controller.add);
-router.post('/uploadFile', uploadFile.single('file'),controller.CreateBucket)
+
+router.post('/save',uploadFile.array('path',5),controller.add);
 
 export default router
