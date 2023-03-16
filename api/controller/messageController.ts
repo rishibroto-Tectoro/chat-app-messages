@@ -44,8 +44,7 @@ export async function add(req: Request, res: Response): Promise<any> {
 }
 
 async function sendMessagesThroughSocket(message:any, io: Socket) {
-        io.emit(message.to,message,(response:any)=> {
-            console.log('Message sent via socket: ', response)
-        })
-        console.log('Data emitted.')
+        for(let to of message.to) {
+            io.emit(to,message)
+        }
 }
