@@ -35,5 +35,6 @@ export const uploadFile = multer({
 })
 
 router.post('/save',uploadFile.array('path',5),controller.add);
+router.get('/get',controller.find)
 
 export default router
