@@ -8,6 +8,7 @@ const appConst = {
     }, ERRORS: {
         USER_INSERTION_FAILED: 'Unable to insert User.',
         NO_RECORDS_FOUND: 'No Records Found.',
+
         //  AWS ERRORS
         NO_FILE: 'no files are uploaded',
         INVALID_AWS_KEY: "Invalid Key",

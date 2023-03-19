@@ -14,8 +14,15 @@ app.use(bodyPaser.urlencoded({ extended: true }))
 app.use(express.json());
 app.use(cors())
 app.use('/', router);
-server.listen(process.env.port, async () => {
-    await initCache()
-    console.log(`server listening on port ${process.env.port}`)
-})
 
+async function init() {
+    try {
+        await initCache()
+        server.listen(process.env.PORT || 4002, () => {
+            console.log(`Server listening at ${process.env.PORT || 4002}`)
+        })
+    } catch (err: any) {
+        console.log(err)
+    }
+}
+init()

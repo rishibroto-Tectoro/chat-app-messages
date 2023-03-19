@@ -95,7 +95,7 @@ async function addRecordToCache() {
         return {
           status: appConst.STATUS.FAIL,
           response: null,
-          message: "Connection to cache failed.",
+          message: appConst.ERRORS.CACHE_CONNECT,
         };
       }
     }
@@ -128,21 +128,21 @@ export async function createRecordKey(record: any, key: string) {
       key += "FROM:" + record.from + "#";
     }
 
-    return {status: appConst.STATUS.SUCCESS, response: key, message: null};
+  return {status: appConst.STATUS.SUCCESS, response: key, message: null};
   } catch (err: any) {
     console.log(err);
     return {status: appConst.STATUS.FAIL, response: null, message: err.message};
   }
 }
 
-export async function cacheInit(req: Request, res: Response) {
+export async function cacheInit(req: Request, res: Response):Promise<any> {
   try {
     let resp = await initCache();
     resp.status === appConst.STATUS.SUCCESS
       ? res.status(200).json({status: appConst.STATUS.SUCCESS})
       : res.status(400).json({status: appConst.STATUS.FAIL});
-  } catch (err) {
+  } catch (err:any) {
     console.log(err);
-    res.status(400).json({status: appConst.STATUS.FAIL});
+    res.status(400).json({status: appConst.STATUS.FAIL,response:null,message:err.message});
   }
 }
